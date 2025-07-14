@@ -139,8 +139,9 @@ function exportCSV() {
   const blob = new Blob([header + rows.join("\n")], { type: "text/csv" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
+  const title = document.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').substring(0, 50);
+  a.download = `${jobs.length}_jobs_${title}.csv`;
   a.href = url;
-  a.download = `${jobs.length}_jobs_linkedin.csv`;
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -196,7 +197,7 @@ function renderJobTable() {
     position: fixed;
     top: 50px;
     right: 0;
-    width: 380px;
+    width: 500px;
     max-height: 90vh;
     background: white;
     border-left: 2px solid #ccc;
@@ -207,6 +208,7 @@ function renderJobTable() {
     font-family: sans-serif;
     font-size: 12px;
     display: none;
+    border-radius: 4px;
   `;
 
   toggleBtn.onclick = () => {
@@ -221,6 +223,7 @@ function renderJobTable() {
 
   container.innerHTML = `
     <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap">
+    <h6 style = "color: red"> Lưu ý: Sau khi bấm 'Bắt đầu' bạn cần thu nhỏ trang xuống 25% để tool có thể hoạt động chính xác nhất</h6>
       <label>Số trang tối đa:</label>
       <input id="maxPageInput" type="number" value="5" min="1" style="width: 60px" />
       <button id="startBtn">Bắt đầu</button>
