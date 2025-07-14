@@ -1,4 +1,4 @@
-// content.js - LinkedIn Job Crawler with toggle button
+// content.js - LinkedIn Job Crawler with full details (salary, type, remote)
 let jobs = [];
 let isCrawling = false;
 let maxPages = 5;
@@ -57,27 +57,40 @@ async function crawlJobsOnPage() {
 
     const titleEl = card.querySelector('a.job-card-container__link span[aria-hidden="true"]');
     const companyEl = card.querySelector('div.artdeco-entity-lockup__subtitle span');
-    const salaryEl = card.querySelector('div.artdeco-entity-lockup__metadata span');
     const linkEl = card.querySelector('a.job-card-container__link');
 
-    let location = '', date = '';
+    // --- Get detailed info from detail panel ---
     const detailContainer = document.querySelector('.job-details-jobs-unified-top-card__tertiary-description-container');
+    let location = '', date = '';
     if (detailContainer) {
-      const spans = [...detailContainer.querySelectorAll('span.tvm__text--low-emphasis')];
-      if (spans.length >= 2) {
-        location = spans[0]?.innerText?.trim() || '';
-        date = spans[1]?.innerText?.trim() || '';
+      const spans = [...detailContainer.querySelectorAll('span.tvm__text')];
+      for (const span of spans) {
+        const txt = span.innerText?.trim();
+        if (txt?.match(/\d+ (hours|days|minutes) ago/i)) date = txt;
+        else if (!location && txt) location = txt;
       }
+    }
+
+    const fitContainer = document.querySelector('.job-details-fit-level-preferences');
+    let salary = '', type = '';
+    if (fitContainer) {
+      const btns = fitContainer.querySelectorAll('button span strong');
+      btns.forEach(btn => {
+        const txt = btn.innerText.trim();
+        if (txt.includes("$")) salary = txt;
+        else if (txt.toLowerCase().includes("full") || txt.toLowerCase().includes("part")) type = txt;
+        else if (!type) type = txt;
+      });
     }
 
     const job = {
       title: titleEl?.innerText?.trim() || '',
       company: companyEl?.innerText?.trim() || '',
       location,
-      salary: salaryEl?.innerText?.trim() || '',
+      salary,
       link: linkEl ? `https://www.linkedin.com${linkEl.getAttribute('href')}` : '',
       date,
-      type: getText('span[data-test-text="JobType"]')
+      type
     };
 
     const key = job.link;
@@ -183,7 +196,7 @@ function renderJobTable() {
     position: fixed;
     top: 50px;
     right: 0;
-    width: 450px;
+    width: 380px;
     max-height: 90vh;
     background: white;
     border-left: 2px solid #ccc;
