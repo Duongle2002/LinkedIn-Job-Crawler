@@ -47,8 +47,7 @@ Tiện ích mở rộng (Extension) này cho phép bạn thu thập thông tin v
 4. **Khi crawl hoàn tất:**
    * Tự động xuất file CSV.
    * Có thể nhấn "Xóa" để reset dữ liệu hoặc "Dừng" để tạm ngưng.
-
-     ![1752546314560](image/README/1752546314560.mp4)
+     ![Video Demo](https://example.com/path/to/video.gif)
 
 ---
 

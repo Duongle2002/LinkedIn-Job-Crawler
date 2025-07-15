@@ -131,7 +131,7 @@ async function startCrawling() {
 }
 
 function exportCSV() {
-  const header = "Company,Title,Link,Salary,Location,Type,Date\n";
+  const header = "Company Name,Title Job,Link Job,Salary,Location,Type,Date\n";
   const rows = jobs.map(j =>
     [ j.company, j.title, j.link,j.salary, j.location, j.type,  j.date ]
       .map(field => `"${(field || "").replace(/"/g, '""')}"`).join(',')

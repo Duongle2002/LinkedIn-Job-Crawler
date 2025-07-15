@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "LinkedIn Job Crawler",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Tự động thu thập thông tin việc làm từ LinkedIn",
   "permissions": ["scripting", "downloads", "storage", "activeTab"],
   "host_permissions": ["https://www.linkedin.com/jobs/search/*"],
