@@ -131,9 +131,9 @@ async function startCrawling() {
 }
 
 function exportCSV() {
-  const header = "Title,Company,Location,Type,Salary,Date,Link\n";
+  const header = "Company,Title,Link,Salary,Location,Type,Date\n";
   const rows = jobs.map(j =>
-    [j.title, j.company, j.location, j.type, j.salary, j.date, j.link]
+    [ j.company, j.title, j.link,j.salary, j.location, j.type,  j.date ]
       .map(field => `"${(field || "").replace(/"/g, '""')}"`).join(',')
   );
   const blob = new Blob([header + rows.join("\n")], { type: "text/csv" });
